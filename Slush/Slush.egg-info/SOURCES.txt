@@ -1,0 +1,12 @@
+README.txt
+setup.py
+Boards/SlushEngine_ModelX.py
+Boards/__init__.py
+Devices/L6470Registers.py
+Devices/__init__.py
+ExpansionModules/QuadDecoder.py
+ExpansionModules/__init__.py
+Slush.egg-info/PKG-INFO
+Slush.egg-info/SOURCES.txt
+Slush.egg-info/dependency_links.txt
+Slush.egg-info/top_level.txt
