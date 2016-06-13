@@ -39,7 +39,7 @@ When you are inside this directory then use the following command to install the
 
 To test if the Slush library installed correctly open a terminal and import the Slush library
 
->import slush
+>import Slush
 
 
 We are trying hard to make this installation more streamline. We ask that any issues you encounter during the installation you post as an issue on git or email reinerschmidt@roboteurs.com
