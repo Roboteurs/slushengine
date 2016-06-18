@@ -80,8 +80,11 @@ class Motor(sBoard):
             self.setParam(LReg.FS_SPD, self.fsCalc(thresholdSpeed))
 
     ''' set the current'''
-    def setCurrent(self):
-        return 0
+    def setCurrent(self, hold, run, acc, dec):
+	self.setParam(LReg.KVAL_RUN, run)
+	self.setParam(LReg.KVAL_ACC, acc)
+	self.setParam(LReg.KVAL_DEC, dec)
+	self.setParam(LReg.KVAL_HOLD, hold)
 
     '''set the maximum motor speed'''
     def setMaxSpeed(self, speed):
