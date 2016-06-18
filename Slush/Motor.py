@@ -81,10 +81,10 @@ class Motor(sBoard):
 
     ''' set the current'''
     def setCurrent(self, hold, run, acc, dec):
-	self.setParam(LReg.KVAL_RUN, run)
-	self.setParam(LReg.KVAL_ACC, acc)
-	self.setParam(LReg.KVAL_DEC, dec)
-	self.setParam(LReg.KVAL_HOLD, hold)
+        self.setParam(LReg.KVAL_RUN, run)
+        self.setParam(LReg.KVAL_ACC, acc)
+        self.setParam(LReg.KVAL_DEC, dec)
+        self.setParam(LReg.KVAL_HOLD, hold)
 
     '''set the maximum motor speed'''
     def setMaxSpeed(self, speed):
