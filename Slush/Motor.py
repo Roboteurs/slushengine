@@ -5,7 +5,7 @@ __author__ = 'mangokid'
 
 from Slush.Board import *
 from Slush.Devices import L6470Registers as LReg
-
+import math
 
 class Motor(sBoard):
 
