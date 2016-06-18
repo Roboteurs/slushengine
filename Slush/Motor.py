@@ -116,14 +116,14 @@ class Motor(sBoard):
     def setOverCurrent(self, ma_current):
         OCValue = math.floor(ma_current/375)
         if OCValue > 0x0f: OCValue = 0x0f
-        self.setParam((LReg.OCD_TH[0] & 0x0f), OCValue)
+        self.setParam((LReg.OCD_TH), OCValue)
 
     ''' set the stall current level '''
     def setStallCurrent(self, ma_current):
         STHValue = round(math.floor(ma_current/31.25))
         if(STHValue > 0x80): STHValue = 0x80
         if(STHValue < 0): STHValue = 9
-        self.setParam((LReg.STALL_TH[0] & 0x7f), STHValue)
+        self.setParam((LReg.STALL_TH), STHValue)
 
     ''' set low speed optamization '''
     def setLowSpeedOpt(self, enable):
