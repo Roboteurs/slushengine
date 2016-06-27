@@ -8,7 +8,9 @@ from Slush.Devices import L6470Registers as LReg
 import math
 
 class Motor(sBoard):
-
+    
+    boardInUse = 0
+    
     def __init__(self, motorNumber):
        
         #setting the particular chip parameters
@@ -37,23 +39,27 @@ class Motor(sBoard):
 
         #check that the motors SPI is actually working
         if (self.getParam(LReg.CONFIG) == 0x2e88):
-            print ("Motor connected on GPIO " + str(self.chipSelect))
+            print ("Motor Drive Connected on GPIO " + str(self.chipSelect))
+            self.boardInUse = 0
+        elif (self.getParam([0x1A, 16]) == 0x2c88):
+            print ("High Power Drive Connected on GPIO " + str(self.chipSelect))
+            self.boardInUse = 1
         else:
             print ("communication issues; check SPI configuration and cables")
 
-        #set defaults for motor driver
-        #self.setParam(LReg.KVAL_RUN, 50)
-        #self.setParam(LReg.KVAL_ACC, 1000)
-        #self.setParam(LReg.KVAL_DEC, 1000)
-        #self.setParam(LReg.KVAL_HOLD, 500)
-        #self.setParam(LReg.MAX_SPEED, 6000)
-        #self.setParam(LReg.ACC, 1200)
-        #self.setParam(LReg.DEC, 1200)
-        #self.setAccel(2000)
+        #based on board type init driver accordingly
+        if self.boardInUse == 0:
+            self.setOverCurrent(2000)
+            self.setMicroSteps(1)
+            self.setCurrent(70, 90, 100, 100)
+        if self.boardInUse == 1:
+            self.setParam([0x1A, 16], 0x3608)
+            self.setCurrent(100, 120, 140, 140)
+            self.setMicroSteps(1)
 
         #self.setParam(LReg.KVAL_RUN, 0xff)
         self.getStatus()
-        self.hardStop()
+        self.free()
         
     ''' check if the motion engine is busy '''
     def isBusy(self):
@@ -238,7 +244,7 @@ class Motor(sBoard):
         temp = 0;
         self.xfer(LReg.GET_STATUS)
         temp = self.xfer(0) << 8
-        temp = temp + self.xfer(0)
+        temp = self.xfer(0)
         return temp
 
     ''' calculates the value of the ACC register '''
