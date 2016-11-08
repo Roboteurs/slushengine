@@ -47,7 +47,7 @@ class sBoard:
     """    
     sBoard.spi = spidev.SpiDev()
     sBoard.spi.open(0,0)
-    sBoard.spi.max_speed_hz = 1000000
+    sBoard.spi.max_speed_hz = 100000
     sBoard.spi.bits_per_word = 8
     sBoard.spi.loop = False
     sBoard.spi.mode = 3
@@ -62,25 +62,25 @@ class sBoard:
     """
     gpio.cleanup() 
 
-  def setIOState(self, portNumber, state):
+  def setIOState(self, port, pinNumber, state):
     """ sets the output state of the industrial outputs on the SlushEngine. This
     currentley does not support the digitial IO
     """
     with closing(i2c.I2CMaster(1)) as bus:
         chip = MCP23017(bus, 0x20)
         chip.reset()
-        industrialOutput = chip[0][(abs(portNumber - 7))]
+        industrialOutput = chip[port][pinNumber]
         industrialOutput.direction = Out
         industrialOutput.value = state
 
-  def getIOState(self, portNumber):
+  def getIOState(self, port, pinNumber):
     """ sets the output state of the industrial outputs on the SlushEngine. This
     currentley does not support the digitial IO
     """
     with closing(i2c.I2CMaster(1)) as bus:
         chip = MCP23017(bus, 0x20)
         chip.reset()
-        industrialInput = chip[0][portNumber]
+        industrialInput = chip[port][pinNumber]
         industrialInput.direction = In
         industrialInput.pull_up = True
         state = industrialInput.value
