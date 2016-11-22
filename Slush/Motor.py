@@ -98,7 +98,7 @@ class Motor(sBoard):
 
     ''' set the minimum speed '''
     def setMinSpeed(self, speed):
-        self.setParam((LReg.MIN_SPEED, self.minSpdCalc(speed)))
+        self.setParam(LReg.MIN_SPEED, self.minSpdCalc(speed))
 
     ''' set accerleration rate '''
     def setAccel(self, acceleration):
