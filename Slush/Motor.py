@@ -30,7 +30,11 @@ class Motor(sBoard):
             self.chipSelect = SLX.MTR3_ChipSelect   
             self.busyPin = SLX.MTR3_Busy
             self.stepClock = SLX. MTR3_StepClock
+        if motorNumber == 4:
+            self.chipSelect = SLX.MTR4_ChipSelect
 
+        if motorNumber == 5:
+            self.chipSelect = SLX.MTR5_ChipSelect
         #init the hardware
         self.initPeripherals()
 
@@ -50,12 +54,12 @@ class Motor(sBoard):
         #based on board type init driver accordingly
         if self.boardInUse == 0:
             self.setOverCurrent(2000)
-            self.setMicroSteps(1)
+            self.setMicroSteps(16)
             self.setCurrent(70, 90, 100, 100)
         if self.boardInUse == 1:
             self.setParam([0x1A, 16], 0x3608)
             self.setCurrent(100, 120, 140, 140)
-            self.setMicroSteps(1)
+            self.setMicroSteps(16)
 
         #self.setParam(LReg.KVAL_RUN, 0xff)
         self.getStatus()
@@ -299,7 +303,7 @@ class Motor(sBoard):
         mask = 0xffffffff >> (32 - bit_len)
         if value > mask: value = mask
 
-        if byte_len == 3.0:
+        if byte_len >= 3.0:
             temp = self.xfer(value >> 16)
             ret_value |= temp << 16
         if byte_len >= 2.0:
@@ -336,12 +340,8 @@ class Motor(sBoard):
 
     ''' convert twos compliment '''
     def convert(self, val):
-        print(hex(val))
-        MSB = val >> 21
-        val = val << 11
-        val = val >> 11
-        if MSB == 1: 
-            val = val | 0b11111111111000000000000000000000
+        if val > 0x400000/2:
+            val = val - 0x400000
         return val
 
     ''' switch case to handle parameters '''
