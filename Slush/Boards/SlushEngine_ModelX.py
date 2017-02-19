@@ -17,6 +17,11 @@ MTR0_ChipSelect 	= 24
 MTR1_ChipSelect 	= 25
 MTR2_ChipSelect 	= 26
 MTR3_ChipSelect 	= 27
+MTR4_ChipSelect         = 20
+MTR5_ChipSelect         = 21
+MTR6_ChipSelect         = 22
+
+
 
 MTR_Flag	= 13
 

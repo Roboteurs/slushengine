@@ -27,11 +27,17 @@ class sBoard:
     gpio.setup(SLX.MTR1_ChipSelect, gpio.OUT)
     gpio.setup(SLX.MTR2_ChipSelect, gpio.OUT)
     gpio.setup(SLX.MTR3_ChipSelect, gpio.OUT)
+    gpio.setup(SLX.MTR4_ChipSelect, gpio.OUT)
+    gpio.setup(SLX.MTR5_ChipSelect, gpio.OUT)
+    gpio.setup(SLX.MTR6_ChipSelect, gpio.OUT)
     gpio.output(SLX.MTR0_ChipSelect, gpio.HIGH)
     gpio.output(SLX.MTR1_ChipSelect, gpio.HIGH)
     gpio.output(SLX.MTR2_ChipSelect, gpio.HIGH)
     gpio.output(SLX.MTR3_ChipSelect, gpio.HIGH)
-    
+    gpio.output(SLX.MTR4_ChipSelect, gpio.HIGH)
+    gpio.output(SLX.MTR5_ChipSelect, gpio.HIGH)
+    gpio.output(SLX.MTR6_ChipSelect, gpio.HIGH)
+
     #IO expander reset pin
     gpio.setup(SLX.MCP23_Reset, gpio.OUT)
     gpio.output(SLX.MCP23_Reset, gpio.HIGH)
