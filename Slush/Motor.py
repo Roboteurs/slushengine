@@ -16,25 +16,18 @@ class Motor(sBoard):
         #setting the particular chip parameters
         if motorNumber == 0:
             self.chipSelect = SLX.MTR0_ChipSelect
-            self.busyPin = SLX.MTR0_Busy
-            self.stepClock = SLX. MTR0_StepClock
         if motorNumber == 1:
             self.chipSelect = SLX.MTR1_ChipSelect
-            self.busyPin = SLX.MTR1_Busy
-            self.stepClock = SLX. MTR1_StepClock
         if motorNumber == 2:
             self.chipSelect = SLX.MTR2_ChipSelect
-            self.busyPin = SLX.MTR2_Busy
-            self.stepClock = SLX. MTR2_StepClock
         if motorNumber == 3:
             self.chipSelect = SLX.MTR3_ChipSelect   
-            self.busyPin = SLX.MTR3_Busy
-            self.stepClock = SLX. MTR3_StepClock
         if motorNumber == 4:
             self.chipSelect = SLX.MTR4_ChipSelect
-
         if motorNumber == 5:
             self.chipSelect = SLX.MTR5_ChipSelect
+        if motorNumber == 6:
+            self.chipSelect = SLX.MTR6_ChipSelect
         #init the hardware
         self.initPeripherals()
 
@@ -69,6 +62,13 @@ class Motor(sBoard):
     def isBusy(self):
         status = self.getStatus()
         return (not ((status >> 1) & 0b1))
+    
+    ''' wait for motor to finish moving *** Caution this is blocking *** '''
+    def waitMoveFinish(self):
+        status = 1
+        while status:
+            status = self.getStatus()
+            status = not((status >> 1) & 0b1)
 
     ''' set the microstepping level '''
     def setMicroSteps(self, microSteps):
@@ -226,6 +226,7 @@ class Motor(sBoard):
     ''' reset the device to initial conditions '''
     def resetDev(self):
         self.xfer(LReg.RESET_DEVICE)
+        if self.boardInUse == 1: self.setParam([0x1A, 16], 0x3608) 
 
     ''' stop the motor using the decel '''
     def softStop(self):
