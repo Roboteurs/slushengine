@@ -9,6 +9,7 @@ This is the repository that contains the SlushEngine Python software library tha
 Connect your Raspberry Pi to the Internet and then run the following command. This will automatically install all requirments for the SlushEngine and the SlushEngine package for Python
 ```
 sudo wget https://raw.githubusercontent.com/Roboteurs/slushengine/master/install.pl -O - | perl
+```
 
 # Detailed Installation #
 
