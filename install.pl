@@ -12,7 +12,7 @@ my $slush_repo = qw(https://github.com/Roboteurs/slushengine);
 my $quick2wire_repo = qw(https://github.com/quick2wire/quick2wire-python-api);
 
 # system commands
-my $apt_install_cmd="sudo apt-get install $packages";
+my $apt_install_cmd="sudo apt-get -y install $packages";
 my $pip_install_cmd="sudo pip install $pip_packages";
 my $git_clone_cmd = "git clone ";
 my $python_install_cmd = "sudo python3 setup.py install";
