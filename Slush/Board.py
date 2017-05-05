@@ -4,6 +4,7 @@ import Slush.Boards.SlushEngine_ModelX as SLX
 from Slush.Base import *
 
 class sBoard:
+  chip = 0
 
   def __init__(self):
     """ initalize all of the controllers peripheral devices
@@ -61,7 +62,9 @@ class sBoard:
   def initI2C(self):
     """ initalizes the i2c bus without relation to any of its slaves
     """
-    pass
+    with closing(i2c.I2CMaster(1)) as bus:
+        self.chip = MCP23017(bus, 0x20)
+        self.chip.reset()
 
   def deinitBoard(self):
     """ closes the board and deinits the peripherals
@@ -73,9 +76,7 @@ class sBoard:
     currentley does not support the digitial IO
     """
     with closing(i2c.I2CMaster(1)) as bus:
-        chip = MCP23017(bus, 0x20)
-        chip.reset()
-        industrialOutput = chip[port][pinNumber]
+        industrialOutput = self.chip[port][pinNumber]
         industrialOutput.direction = Out
         industrialOutput.value = state
 
@@ -84,8 +85,6 @@ class sBoard:
     currentley does not support the digitial IO
     """
     with closing(i2c.I2CMaster(1)) as bus:
-        chip = MCP23017(bus, 0x20)
-        chip.reset()
         industrialInput = chip[port][pinNumber]
         industrialInput.direction = In
         industrialInput.pull_up = True
