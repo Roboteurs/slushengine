@@ -95,7 +95,7 @@ class sBoard:
   def readInput(self, inputNumber):
     """ sets the input to digital with a pullup and returns a read value
     """
-    with I2CMaster() as master:
+    with I2CMaster(1) as master:
         master.transaction(writing_bytes(0x17, inputNumber + 8, 0x00))
         result =  master.transaction(writing_bytes(0x17, inputNumber + 20), reading(0x17, 1))
         return result[0][0]
@@ -103,13 +103,13 @@ class sBoard:
     """ sets the output state of the IO to digital and then sets the state of the 
     pin        
     """
-    with I2CMaster() as master:
+    with I2CMaster(1) as master:
         master.transaction(writing_bytes(0x17, outputNumber, 0x00))
         master.transaction(writing_bytes(0x17, outputNumber + 12, state))
   def readAnalog(self, inputNumber):
     """ sets the IO to analog and then returns a read value (10-bit)        
     """
-    with I2CMaster() as master:
+    with I2CMaster(1) as master:
         master.transaction(writing_bytes(0x17, inputNumber + 8, 0x01))
         result1 =  master.transaction(writing_bytes(0x17, inputNumber + 20), reading(0x17, 1))
         result2 =  master.transaction(writing_bytes(0x17, inputNumber + 20 + 4), reading(0x17, 1))
@@ -117,7 +117,7 @@ class sBoard:
   def setPWMOutput(self, outputNumber, pwmVal):
     """ sets the output to PWM (500Hz) and sets the duty cycle to % PWMVal/255        
     """
-    with I2CMaster() as master:
+    with I2CMaster(1) as master:
         master.transaction(writing_bytes(0x17, outputNumber, 0x01))
         master.transaction(writing_bytes(0x17, outputNumber + 12, pwmVal))
 
