@@ -62,9 +62,13 @@ class sBoard:
   def initI2C(self):
     """ initalizes the i2c bus without relation to any of its slaves
     """
-    with closing(i2c.I2CMaster(1)) as bus:
-        self.chip = MCP23017(bus, 0x20)
-        self.chip.reset()
+    
+    try:
+        with closing(i2c.I2CMaster(1)) as bus:
+            self.chip = MCP23017(bus, 0x20)
+            self.chip.reset()
+    except:
+        pass
 
   def deinitBoard(self):
     """ closes the board and deinits the peripherals
