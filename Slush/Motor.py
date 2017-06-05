@@ -254,44 +254,44 @@ class Motor(sBoard):
 
     ''' calculates the value of the ACC register '''
     def accCalc(self, stepsPerSecPerSec):
-        temp = stepsPerSecPerSec * 0.137438
-        if temp > 4095.0: return [(4095)]
+        temp = float(stepsPerSecPerSec) * 0.137438
+        if temp > 4095.0: return 4095
         else: return round(temp)
 
     ''' calculated the value of the DEC register '''
     def decCalc(self, stepsPerSecPerSec):
-        temp = stepsPerSecPerSec * 0.137438
-        if temp > 4095: return 4095
+        temp = float(stepsPerSecPerSec) * 0.137438
+        if temp > 4095.0: return 4095
         else: return round(temp)
 
     ''' calculates the max speed register '''
     def maxSpdCalc(self, stepsPerSec):
-        temp = stepsPerSec * 0.065536
-        if temp > 1023: return 1023
+        temp = float(stepsPerSec) * 0.065536
+        if temp > 1023.0: return 1023
         else: return round(temp)
 
     ''' calculates the min speed register '''
     def minSpdCalc(self, stepsPerSec):
-        temp = stepsPerSec * 4.1943
-        if temp > 4095: return 4095
+        temp = float(stepsPerSec) * 4.1943
+        if temp > 4095.0: return 4095
         else: return round(temp)
 
     ''' calculates the value of the FS speed register '''
     def fsCalc(self, stepsPerSec):
-        temp = (stepsPerSec * 0.065536) - 0.5
-        if temp > 1023: return 1023
+        temp = (float(stepsPerSec) * 0.065536) - 0.5
+        if temp > 1023.0: return 1023
         else: return round(temp)
 
     ''' calculates the value of the INT speed register '''
     def intSpdCalc(self, stepsPerSec):
-        temp = stepsPerSec * 4.1943
-        if temp > 16383: return 16383
+        temp = float(stepsPerSec) * 4.1943
+        if temp > 16383.0: return 16383
         else: return round(temp)
 
     ''' calculate speed '''
     def spdCalc(self, stepsPerSec):
-        temp = stepsPerSec * 67.106
-        if temp > 0x000fffff: return 0x000fffff
+        temp = float(stepsPerSec) * 67.106
+        if temp > float(0x000fffff): return 0x000fffff
         else: return round(temp)
 
     ''' utility function '''
