@@ -89,7 +89,7 @@ class sBoard:
     currentley does not support the digitial IO
     """
     with closing(i2c.I2CMaster(1)) as bus:
-        industrialInput = chip[port][pinNumber]
+        industrialInput = self.chip[port][pinNumber]
         industrialInput.direction = In
         industrialInput.pull_up = True
         state = industrialInput.value
