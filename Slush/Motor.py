@@ -112,7 +112,7 @@ class Motor(sBoard):
     ''' set the deceleration rate '''
     def setDecel(self, deceleration):
         decelerationBytes = self.decCalc(deceleration)
-        self.setParam(LReg.DEC, deceleration)
+        self.setParam(LReg.DEC, decelerationBytes)
 
     ''' get the posistion of the motor '''
     def getPosition(self):
