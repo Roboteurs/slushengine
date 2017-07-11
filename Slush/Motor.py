@@ -249,7 +249,7 @@ class Motor(sBoard):
         temp = 0;
         self.xfer(LReg.GET_STATUS)
         temp = self.xfer(0) << 8
-        temp = self.xfer(0)
+        temp += self.xfer(0)
         return temp
 
     ''' calculates the value of the ACC register '''
