@@ -27,3 +27,8 @@ try:
 except ImportError:
   raise ImportError("Cannot load the Raspberry Pi GPIO drivers")
 
+#include SMbux drivers
+try:
+    import smbus2 as SMBus
+except ImportError:
+    raise ImportError("Cannot Load SMBus library")
