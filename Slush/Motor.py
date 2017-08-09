@@ -112,7 +112,7 @@ class Motor(sBoard):
     ''' set the deceleration rate '''
     def setDecel(self, deceleration):
         decelerationBytes = self.decCalc(deceleration)
-        self.setParam(LReg.DEC, deceleration)
+        self.setParam(LReg.DEC, decelerationBytes)
 
     ''' get the posistion of the motor '''
     def getPosition(self):
@@ -249,7 +249,7 @@ class Motor(sBoard):
         temp = 0;
         self.xfer(LReg.GET_STATUS)
         temp = self.xfer(0) << 8
-        temp = self.xfer(0)
+        temp += self.xfer(0)
         return temp
 
     ''' calculates the value of the ACC register '''
