@@ -5,7 +5,7 @@ use autodie;
 
 # declare all required packages
 my $packages = "python3 python3-setuptools python3-pip git";
-my $pip_packages = "spidev inputs";
+my $pip_packages = "spidev inputs smbus";
 
 # git repos to install
 my $slush_repo = qw(https://github.com/Roboteurs/slushengine); 
@@ -13,7 +13,7 @@ my $quick2wire_repo = qw(https://github.com/quick2wire/quick2wire-python-api);
 
 # system commands
 my $apt_install_cmd="sudo apt-get -y install $packages";
-my $pip_install_cmd="sudo pip install $pip_packages";
+my $pip_install_cmd="sudo pip3 install $pip_packages";
 my $git_clone_cmd = "git clone ";
 my $python_install_cmd = "sudo python3 setup.py install";
 my $logit = "1>>log.txt 2>&1";
