@@ -5,6 +5,7 @@ from Slush.Base import *
 
 class sBoard:
   chip = 0
+  bus = 0
 
   def __init__(self):
     """ initalize all of the controllers peripheral devices
@@ -63,6 +64,8 @@ class sBoard:
     """ initalizes the i2c bus without relation to any of its slaves
     """
     
+    self.bus = SMBus.SMBus(1)
+    
     try:
         with closing(i2c.I2CMaster(1)) as bus:
             self.chip = MCP23017(bus, 0x20)
@@ -103,27 +106,42 @@ class sBoard:
         master.transaction(writing_bytes(0x17, inputNumber + 8, 0x00))
         result =  master.transaction(writing_bytes(0x17, inputNumber + 20), reading(0x17, 1))
         return result[0][0]
+  
   def setOutput(self, outputNumber, state):
     """ sets the output state of the IO to digital and then sets the state of the 
     pin        
     """
-    with I2CMaster(1) as master:
-        master.transaction(writing_bytes(0x17, outputNumber, 0x00))
-        master.transaction(writing_bytes(0x17, outputNumber + 12, state))
+    print("Setting output" + str(state))
+    self.bus.write_byte_data(0x17, outputNumber, 0x00)
+    self.bus.write_byte_data(0x17, outputNumber + 12, state)
+    #with I2CMaster(1) as master:
+    #    master.transaction(writing_bytes(0x17, outputNumber, 0x00))
+    #    master.transaction(writing_bytes(0x17, outputNumber + 12, state))
+  
   def readAnalog(self, inputNumber):
     """ sets the IO to analog and then returns a read value (10-bit)        
     """
-    with I2CMaster(1) as master:
-        master.transaction(writing_bytes(0x17, inputNumber + 8, 0x01))
-        result1 =  master.transaction(writing_bytes(0x17, inputNumber + 20), reading(0x17, 1))
-        result2 =  master.transaction(writing_bytes(0x17, inputNumber + 20 + 4), reading(0x17, 1))
-        return (result1[0][0] << 2) + result2[0][0]
+    self.bus.write_byte_data(0x17, inputNumber + 8, 0x01)
+    result1 = self.bus.read_byte_data(0x17, inputNumber + 20)
+    result2 = self.bus.read_byte_data(0x17, inputNumber + 20 + 4)
+    return (result1 << 2) + result2
+    
+    #with I2CMaster(1) as master:
+    #    master.transaction(writing_bytes(0x17, inputNumber + 8, 0x01))
+    #    result1 =  master.transaction(writing_bytes(0x17, inputNumber + 20), reading(0x17, 1))
+    #    result2 =  master.transaction(writing_bytes(0x17, inputNumber + 20 + 4), reading(0x17, 1))
+    #    return (result1[0][0] << 2) + result2[0][0]
+  
   def setPWMOutput(self, outputNumber, pwmVal):
     """ sets the output to PWM (500Hz) and sets the duty cycle to % PWMVal/255        
     """
-    with I2CMaster(1) as master:
-        master.transaction(writing_bytes(0x17, outputNumber, 0x01))
-        master.transaction(writing_bytes(0x17, outputNumber + 12, pwmVal))
+    self.bus.write_byte_data(0x17, outputNumber, 0x01)
+    self.bus.write_byte_data(0x17, outputNumber + 12, pwmVal)
+    
+    ''' depreciated use only if quick2wire is being used '''
+    #with I2CMaster(1) as master:
+    #    master.transaction(writing_bytes(0x17, outputNumber, 0x01))
+    #    master.transaction(writing_bytes(0x17, outputNumber + 12, pwmVal))
 
 
     
