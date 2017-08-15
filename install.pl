@@ -5,7 +5,7 @@ use autodie;
 
 # declare all required packages
 my $packages = "python3 python3-setuptools python3-pip git";
-my $pip_packages = "spidev inputs smbus";
+my $pip_packages = "spidev inputs smbus2";
 
 # git repos to install
 my $slush_repo = qw(https://github.com/Roboteurs/slushengine); 
