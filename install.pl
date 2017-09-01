@@ -4,7 +4,7 @@ use warnings;
 use autodie;
 
 # declare all required packages
-my $packages = "python3 python3-setuptools python3-pip git";
+my $packages = "python3 python3-setuptools python3-pip git python3-rpi.gpio";
 my $pip_packages = "spidev inputs smbus2";
 
 # git repos to install
