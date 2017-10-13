@@ -12,13 +12,11 @@ use warnings;
 use autodie;
 
 # declare all required packages
-my $packages = "python3 python3-setuptools python3-pip git python3-rpi.gpio";
-my $python27_packages "python-setuptools python-pip python-rpi.gpio python-dev";
+my $packages = "python3 python3-setuptools python3-pip git python3-rpi.gpio python-setuptools python-pip python-rpi.gpio python-dev";
 my $pip_packages = "spidev inputs smbus2";
 
 # git repos to install
 my $slush_repo = qw(https://github.com/Roboteurs/slushengine); 
-my $quick2wire_repo = qw(https://github.com/quick2wire/quick2wire-python-api);
 
 # system commands
 my $apt_install_cmd="sudo apt-get -y install $packages";
@@ -40,7 +38,7 @@ if ($? != 0){
 }
 
 # install pip3 packages
-print "Installing pip packages \r\n";
+print "Installing pip3 packages \r\n";
 system "$pip3_install_cmd $logit";
 if ($? != 0){
     print "Failed to install pip packages Error No: $? \r\n";
@@ -49,31 +47,13 @@ if ($? != 0){
 }
 
 # install pip packages
-print "Installing pip packages \r\n";
+print "Installing pip2 packages \r\n";
 system "$pip2_install_cmd $logit";
 if ($? != 0){
     print "Failed to install pip packages Error No: $? \r\n";
     print "Check log.txt";
     die();
 }
-
-# install quicktowire
-print "Cloning and setting up quick2wire \r\n";
-system "$git_clone_cmd $quick2wire_repo $logit";
-if ($? != 0){
-    print "Failed to clone quick2wire Error No: $? Does directory already exist? \r\n";
-    print "Check log.txt";
-    die();
-}
-chdir 'quick2wire-python-api';
-system "$python_install_cmd $logit"; 
-if ($? != 0){
-    print "Failed to install quick2wire Error No: $? \r\n";
-    print "Check log.txt";
-    die();
-}
-chdir '..';
-
 
 #install slush
 print "Installing slush \r\n";
@@ -94,5 +74,7 @@ chdir '..';
 
 #finish install
 unlink "log.txt";
-print "Slush Install Complete";
+print "Slush Install Complete \r\n";
+print "Happy Spinning! \r\n"
+
 
