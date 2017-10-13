@@ -82,66 +82,54 @@ class sBoard:
     """ sets the output state of the industrial outputs on the SlushEngine. This
     currentley does not support the digitial IO
     """
-    with closing(i2c.I2CMaster(1)) as bus:
-        industrialOutput = self.chip[port][pinNumber]
-        industrialOutput.direction = Out
-        industrialOutput.value = state
-
+    if port ==0:
+        self.bus.write_byte_data(0x20, 0x00, 0x00)
+        current = self.bus.read_byte_data(0x20, 0x12)
+        if state:
+            self.bus.write_byte_data(0x20, 0x12, current | (0b1 << pinNumber))
+        else:
+            self.bus.write_byte_data(0x20, 0x12, current & (0b1 << pinNumber) ^ current)
+                                     
   def getIOState(self, port, pinNumber):
     """ sets the output state of the industrial outputs on the SlushEngine. This
     currentley does not support the digitial IO
     """
-    with closing(i2c.I2CMaster(1)) as bus:
-        industrialInput = self.chip[port][pinNumber]
-        industrialInput.direction = In
-        industrialInput.pull_up = True
-        state = industrialInput.value
+    if port == 0:
+        self.bus.write_byte_data(0x20, 0x00, 0b1 << pinNumber)
+        state = self.bus.read_byte_data(0x20, 0x12)
+    elif port == 1:
+        self.bus.write_byte_data(0x20, 0x01, 0b1 << pinNumber)
+        state = self.bus.read_byte_data(0x20, 0x13)
+    
+    return (state == 0b1 << pinNumber)
 
-    return state
-  
   def readInput(self, inputNumber):
     """ sets the input to digital with a pullup and returns a read value
     """
-    with I2CMaster(1) as master:
-        master.transaction(writing_bytes(0x17, inputNumber + 8, 0x00))
-        result =  master.transaction(writing_bytes(0x17, inputNumber + 20), reading(0x17, 1))
-        return result[0][0]
+    self.write_byte_data(0x17, inputNumber + 8, 0x00)
+    result = self.read_byte_data(0x17, inputNumber + 20)
+    return result
   
   def setOutput(self, outputNumber, state):
     """ sets the output state of the IO to digital and then sets the state of the 
     pin        
     """
-    print("Setting output" + str(state))
     self.bus.write_byte_data(0x17, outputNumber, 0x00)
     self.bus.write_byte_data(0x17, outputNumber + 12, state)
-    #with I2CMaster(1) as master:
-    #    master.transaction(writing_bytes(0x17, outputNumber, 0x00))
-    #    master.transaction(writing_bytes(0x17, outputNumber + 12, state))
-  
+
   def readAnalog(self, inputNumber):
-    """ sets the IO to analog and then returns a read value (10-bit)        
+    """ sets the IO to analog and then returns a read value (10-bit)
     """
     self.bus.write_byte_data(0x17, inputNumber + 8, 0x01)
     result1 = self.bus.read_byte_data(0x17, inputNumber + 20)
     result2 = self.bus.read_byte_data(0x17, inputNumber + 20 + 4)
     return (result1 << 2) + result2
-    
-    #with I2CMaster(1) as master:
-    #    master.transaction(writing_bytes(0x17, inputNumber + 8, 0x01))
-    #    result1 =  master.transaction(writing_bytes(0x17, inputNumber + 20), reading(0x17, 1))
-    #    result2 =  master.transaction(writing_bytes(0x17, inputNumber + 20 + 4), reading(0x17, 1))
-    #    return (result1[0][0] << 2) + result2[0][0]
-  
+
   def setPWMOutput(self, outputNumber, pwmVal):
-    """ sets the output to PWM (500Hz) and sets the duty cycle to % PWMVal/255        
+    """ sets the output to PWM (500Hz) and sets the duty cycle to % PWMVal/255
     """
     self.bus.write_byte_data(0x17, outputNumber, 0x01)
     self.bus.write_byte_data(0x17, outputNumber + 12, pwmVal)
-    
-    ''' depreciated use only if quick2wire is being used '''
-    #with I2CMaster(1) as master:
-    #    master.transaction(writing_bytes(0x17, outputNumber, 0x01))
-    #    master.transaction(writing_bytes(0x17, outputNumber + 12, pwmVal))
 
 
     

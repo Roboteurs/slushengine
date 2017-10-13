@@ -1,10 +1,19 @@
 #!/usr/bin/perl 
+#----------------------------------------------------------------------------------
+# Install script for the Slush library and all of its dependancies
+# - script installs required packages with dpkg
+# - script uses pip to install both python3 and python2 packages
+# - clones the
+#
+#
+#
 use strict;
 use warnings;
 use autodie;
 
 # declare all required packages
 my $packages = "python3 python3-setuptools python3-pip git python3-rpi.gpio";
+my $python27_packages "python-setuptools python-pip python-rpi.gpio python-dev";
 my $pip_packages = "spidev inputs smbus2";
 
 # git repos to install
@@ -13,7 +22,8 @@ my $quick2wire_repo = qw(https://github.com/quick2wire/quick2wire-python-api);
 
 # system commands
 my $apt_install_cmd="sudo apt-get -y install $packages";
-my $pip_install_cmd="sudo pip3 install $pip_packages";
+my $pip3_install_cmd="sudo pip3 install $pip_packages";
+my $pip2_install_cmd="sudo pip install $pip_packages";
 my $git_clone_cmd = "git clone ";
 my $python_install_cmd = "sudo python3 setup.py install";
 my $logit = "1>>log.txt 2>&1";
@@ -29,9 +39,18 @@ if ($? != 0){
     die();
 }
 
+# install pip3 packages
+print "Installing pip packages \r\n";
+system "$pip3_install_cmd $logit";
+if ($? != 0){
+    print "Failed to install pip packages Error No: $? \r\n";
+    print "Check log.txt";
+    die();
+}
+
 # install pip packages
 print "Installing pip packages \r\n";
-system "$pip_install_cmd $logit";
+system "$pip2_install_cmd $logit";
 if ($? != 0){
     print "Failed to install pip packages Error No: $? \r\n";
     print "Check log.txt";

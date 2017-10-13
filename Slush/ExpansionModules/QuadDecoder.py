@@ -18,11 +18,8 @@ class encoder(sBoard):
 
 		#check if there is an encoder module connected
 		if self.isConnected():
-			print ("Encoder module sucessfully connected")
 			sucess = 1
 		else:
-			print ("Encoder module is not connected")
-			print ("Check cabling and power to the device")
 			sucess = 0
 		
 		return sucess

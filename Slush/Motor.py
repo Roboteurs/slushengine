@@ -320,7 +320,7 @@ class Motor(sBoard):
     def xfer(self, data):
 
         #mask the value to a byte format for transmision
-        data = (data & 0xff)
+        data = (int(data) & 0xff)
 
         #toggle chip select and SPI transfer
         gpio.output(self.chipSelect, gpio.LOW)

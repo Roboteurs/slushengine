@@ -12,6 +12,7 @@ except ImportError:
   raise ImportError("Cannot load spidev library")
 
 #include the i2c drivers and check if i2c is enabled
+'''
 try:
   import quick2wire.i2c as i2c
   from quick2wire.parts.mcp23017 import MCP23017
@@ -20,7 +21,7 @@ try:
   from contextlib import closing
 except ImportError:	
   raise ImportError("Cannot load i2c library (quick2wire)")
-
+'''
 #include the gpio drivers
 try:
   import RPi.GPIO as gpio

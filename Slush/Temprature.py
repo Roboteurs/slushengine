@@ -4,7 +4,7 @@
 __author__ = 'mangokid'
 
 from Slush.Board import *
-import quick2wire.i2c as i2c
+#import quick2wire.i2c as i2c
 import binascii
 import math
 
