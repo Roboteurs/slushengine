@@ -49,6 +49,7 @@ class Motor(sBoard):
             self.setOverCurrent(2000)
             self.setMicroSteps(16)
             self.setCurrent(70, 90, 100, 100)
+            self.setParam([0x1A, 16], 0x3608)
         if self.boardInUse == 1:
             self.setParam([0x1A, 16], 0x3608)
             self.setCurrent(100, 120, 140, 140)
@@ -187,6 +188,11 @@ class Motor(sBoard):
         self.xfer(pos >> 8)
         self.xfer(pos)
 
+    ''' sets the hardstop option for the limit switch '''
+    def setLimitHardStop(self, stop):
+        if stop == 1: self.setParam([0x1A, 16], 0x3608)
+        if stop == 0: self.setParam([0x1A, 16], 0x3618)
+
     ''' go until switch press event occurs '''
     def goUntilPress(self, act, dir, spd):
         self.xfer(LReg.GO_UNTIL | act | dir)
@@ -195,10 +201,19 @@ class Motor(sBoard):
         self.xfer(spd >> 8)
         self.xfer(spd)
 
+    def getSwitch(self):
+        if self.getStatus() & 0x4: return 1
+        else: return 0
+
     ''' go until switch release event occurs '''
     def goUntilRelease(self, act, dir):
         self.xfer(LReg.RELEASE_SW | act | dir)
 
+    ''' reads the value of the switch '''
+    def readSwitch(self):
+        if self.getStatus() & 0x4: return 1
+        else: return 0
+    
     ''' go home '''
     def goHome(self):
         self.xfer(LReg.GO_HOME)
@@ -226,7 +241,8 @@ class Motor(sBoard):
     ''' reset the device to initial conditions '''
     def resetDev(self):
         self.xfer(LReg.RESET_DEVICE)
-        if self.boardInUse == 1: self.setParam([0x1A, 16], 0x3608) 
+        if self.boardInUse == 1: self.setParam([0x1A, 16], 0x3608)
+        if self.boardInUse == 0: self.setParam([0x1A, 16], 0x3608)
 
     ''' stop the motor using the decel '''
     def softStop(self):
