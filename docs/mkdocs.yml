@@ -1,12 +1,13 @@
 pages:
 - Home: 'index.md'
+- Getting Started: 'getting-started.md'
 - User Guide:
     - 'Board Control': 'users-guide/board-control.md'
-	- 'IO Control' ' users-guide/board-control/io-control.md
-	- 'UEXT Expansion' : 'users-guide/board-control/uext-expansion.md
+	- 'IO Control' : ' users-guide/board-control/io-control.md'
+	- 'UEXT Expansion' : 'users-guide/board-control/uext-expansion.md'
     - 'Motor Control': 'users-guide/motor-control.md'
 	- 'Motor Usage' : 'users-guide/motor-control/motor-usage.md'
 	- 'Motor Commands' : 'users-guide/motor-control/motor-commands.md'
-	- 'Motor Settings' : 'users-guide/motor-control/motor-settings.md
+	- 'Motor Settings' : 'users-guide/motor-control/motor-settings.md'
 - About:
     - 'License': 'about/license.md'
