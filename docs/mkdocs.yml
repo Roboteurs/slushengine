@@ -1,0 +1,7 @@
+pages:
+- Home: 'index.md'
+- User Guide:
+    - 'Board Control': 'user-guide/board-control.md'
+    - 'Motor Control': 'user-guide/motor-control.md'
+- About:
+    - 'License': 'about/license.md'
