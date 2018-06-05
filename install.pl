@@ -19,6 +19,7 @@ my $pip_packages = "spidev inputs smbus2";
 my $slush_repo = qw(https://github.com/Roboteurs/slushengine); 
 
 # system commands
+my $apt_update_cmd="sudo apt-get update";
 my $apt_install_cmd="sudo apt-get -y install $packages";
 my $pip3_install_cmd="sudo pip3 install $pip_packages";
 my $pip2_install_cmd="sudo pip install $pip_packages";
@@ -26,6 +27,16 @@ my $git_clone_cmd = "git clone ";
 my $python_install_cmd = "sudo python3 setup.py install";
 my $logit = "1>>log.txt 2>&1";
 
+
+# update
+open(my $outfile, '>', 'log.txt');
+print "Updatng apt \r\n";
+system "$apt_update_cmd $logit";
+if ($? != 0){
+    print "Aptitude failed to updateNo: $? \r\n";
+    print "Check log.txt";
+    die();
+}
 
 # install required packages with apt
 open(my $outfile, '>', 'log.txt');
