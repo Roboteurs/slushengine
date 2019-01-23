@@ -190,8 +190,12 @@ class Motor(sBoard):
 
     ''' sets the hardstop option for the limit switch '''
     def setLimitHardStop(self, stop):
-        if stop == 1: self.setParam([0x18, 16], 0x3608)
-        if stop == 0: self.setParam([0x18, 16], 0x3618)
+        if self.boardInUse is 0:
+            if stop == 1: self.setParam([0x18, 16], 0x3608)
+            if stop == 0: self.setParam([0x18, 16], 0x3618)
+        if self.boardInUse is 1:
+            if stop == 1: self.setParam([0x1A, 16], 0x3608)
+            if stop == 0: self.setParam([0x1A, 16], 0x3618)
 
     ''' go until switch press event occurs '''
     def goUntilPress(self, act, dir, spd):
